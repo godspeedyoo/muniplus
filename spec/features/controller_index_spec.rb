@@ -6,5 +6,10 @@ describe 'controller index' do
       get '/'
       expect(last_response).to be_ok
     end
+
+    it 'should contain a form to enter your route' do
+      get '/'
+      expect(last_response.body).to include("Welcome")
+    end
   end
 end
