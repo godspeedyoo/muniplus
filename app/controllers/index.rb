@@ -2,6 +2,10 @@ get '/' do
   erb :index
 end
 
+post '/routes' do
+  @route = Muni::Route.find(params[:route_number])
+  erb :index
+end
 # r12 = Muni::Route.new({
 #   tag: "3008",
 #   title: "2nd St & Folsom St",
@@ -24,3 +28,25 @@ end
 # sample of prediction for
 # Muni::Route.find(12).outbound.stop_at("2nd St & Folsom St").predictions
 # [#<Muni::Prediction epochTime="1422343095918", seconds="1823", minutes="30", isDeparture="false", affectedByLayover="true", dirTag="12_OB1", vehicle="8230", block="1201", tripTag="6521556">, #<Muni::Prediction epochTime="1422344895918", seconds="3623", minutes="60", isDeparture="false", affectedByLayover="true", dirTag="12_OB1", vehicle="8302", block="1203", tripTag="6521557">]
+
+#methods for Route object
+# []
+# []=
+# delete_field
+# direction_at
+# directions
+# directions=
+# each_pair
+# inbound
+# marshal_dump
+# marshal_load
+# method_missing
+# modifiable
+# new_ostruct_member
+# outbound
+# table
+# tag
+# tag=
+# title
+# title=
+# to_h

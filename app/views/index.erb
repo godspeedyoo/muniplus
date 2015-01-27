@@ -1,1 +1,11 @@
 <h1>Welcome to MuniPlus</h1>
+<h3>Serving the San Francisco Area</h3>
+<form action="/routes" method="POST">
+<label>Find a route</label>
+  <input type="number" name="route_number" placeholder="Enter Route #">
+  <input type="submit" value="Submit">
+</form>
+<% unless @route.nil? %>
+<%= @route.title %>
+<% end %>
+
