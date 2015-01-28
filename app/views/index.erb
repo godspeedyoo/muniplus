@@ -13,8 +13,8 @@
       <h3><%= data_set.keys[0] %></h3>
       <% data_set["#{data_set.keys[0]}".to_sym].each do |tag, title| %>
         <tr>
-          <td><a href="/stops/<%= tag %>"><%= tag %></a></td>
-          <td><a href="/stops/<%= tag %>"><%= title %></a></td>
+          <td><a href="/<%= data_set.keys[0] %>/<%= @route_number %>/<%= title %>"><%= tag %></a></td>
+          <td><a href="/<%= data_set.keys[0] %>/<%= @route_number %>/<%= title %>"><%= title %></a></td>
         </tr>
       <% end %>
     <% end %>

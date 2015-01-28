@@ -12,7 +12,7 @@ post '/routes' do
   @route = RouteAccessor::Route.new(r)
   p @config = params[:config]
   @results = filter_inbound_or_outbound(@config, @route)
-
+  @route_number = params[:route_number]
   # p stop_tag(@stop)
   # p stop_title(@stop)
   # p stop_lat(@stop)
