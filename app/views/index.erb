@@ -8,14 +8,16 @@
   <label for="outbound">Outbound</label><input type="checkbox" name="config[outbound]" id="outbound" value="1">
 </form>
 <% unless @route.nil? %>
-<table>
-<% @route.list_inbound_stops.each do |k,v| %>
-  <tr>
-    <td><a href="/stops/<%= k %>"><%= k %></a></td>
-    <td><a href="/stops/<%= k %>"><%= v %></a></td>
-  </tr>
-<% end %>
-</table>
-<br>
+  <table>
+    <%  @results.each do |data_set| %>
+      <h3><%= data_set.keys[0] %></h3>
+      <% data_set["#{data_set.keys[0]}".to_sym].each do |tag, title| %>
+        <tr>
+          <td><a href="/stops/<%= tag %>"><%= tag %></a></td>
+          <td><a href="/stops/<%= tag %>"><%= title %></a></td>
+        </tr>
+      <% end %>
+    <% end %>
+  </table>
 <% end %>
 
