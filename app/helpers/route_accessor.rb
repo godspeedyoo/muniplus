@@ -76,4 +76,6 @@ end
 #     "direction"=>"12_IB1"},
 #   "modifiable"=>true}]
 
+# procs and lambda
+# "table".to_sym
 

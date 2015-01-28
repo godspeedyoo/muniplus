@@ -15,6 +15,6 @@ helpers do
     result = localroute[0]["table"]["directions"][0]["table"]["stops"].select do |table|
       table["table"]["tag"] == tag.to_s
     end
-    result.first
+    return Stop.new(result.first)
   end
 end
