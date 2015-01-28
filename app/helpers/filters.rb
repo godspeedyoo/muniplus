@@ -11,4 +11,10 @@ helpers do
     results
   end
 
+  def find_stop_by_tag(tag, localroute)
+    result = localroute[0]["table"]["directions"][0]["table"]["stops"].select do |table|
+      table["table"]["tag"] == tag.to_s
+    end
+    result.first
+  end
 end

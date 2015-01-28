@@ -12,7 +12,7 @@ post '/routes' do
   @route = RouteAccessor::Route.new(r)
   p @config = params[:config]
   @results = filter_inbound_or_outbound(@config, @route)
-
+  p @stop = find_stop_by_tag(3476, @route)
   # @route.list_inbound_stops
   # RouteAccessor::Route.new(@route)
   erb :index

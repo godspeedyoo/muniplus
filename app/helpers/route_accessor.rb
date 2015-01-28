@@ -45,8 +45,35 @@ helpers do
         list
       end
 
+
+
     end
   end
 
 
 end
+
+
+
+# @route[0]["table"]["directions"][0]["table"]["stops"]
+
+# [{"table"=>
+#    {"tag"=>"3476",
+#     "title"=>"24th St & Mission St",
+#     "lat"=>"37.7523199",
+#     "lon"=>"-122.41833",
+#     "stopId"=>"37.7523199",
+#     "route_tag"=>"12",
+#     "direction"=>"12_IB1"},
+#   "modifiable"=>true},
+#  {"table"=>
+#    {"tag"=>"6877",
+#     "title"=>"Valencia St & 24th St",
+#     "lat"=>"37.75186",
+#     "lon"=>"-122.4207399",
+#     "stopId"=>"37.75186",
+#     "route_tag"=>"12",
+#     "direction"=>"12_IB1"},
+#   "modifiable"=>true}]
+
+
