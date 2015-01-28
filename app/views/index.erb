@@ -11,8 +11,8 @@
 <table>
 <% @route.list_inbound_stops.each do |k,v| %>
   <tr>
-    <td><%= k %></td>
-    <td><%= v %></td>
+    <td><a href="/stops/<%= k %>"><%= k %></a></td>
+    <td><a href="/stops/<%= k %>"><%= v %></a></td>
   </tr>
 <% end %>
 </table>
