@@ -5,7 +5,11 @@ end
 post '/routes' do
   @route = Muni::Route.find(params[:route_number])
   @predictions = @route.outbound.stop_at("2nd st & Folsom").predictions
+  r = jsonify(@route)
+  @route = RouteAccessor::Route.new(r)
   binding.pry
+  # @route.list_inbound_stops
+  # RouteAccessor::Route.new(@route)
   erb :index
 end
 # r12 = Muni::Route.new({

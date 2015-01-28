@@ -7,30 +7,46 @@ helpers do
   module RouteAccessor
     Route = Struct.new(:route) do
 
-    def list_inbound_stops
-      list = {}
-      self.inbound_stops.each do |stop|
-        list[stop["table"]["tag"]] = stop["table"]["title"]
+      def directions
+        directions = []
+        directions << route["table"]["directions"][0..1]["table"]["name"]
+        directions
       end
-      list
-    end
 
-    def list_outbound_stops
-      list = {}
-      self.outbound_stops.each do |stop|
-        list[stop["table"]["tag"]] = stop["table"]["title"]
+      def tag(stop)
+        stop["table"]["tag"]
       end
-      list
-    end
 
-    def inbound_stops
-      route["table"]["directions"][0]["table"]["stops"]
-    end
+      def title(stop)
+        stop["table"]["title"]
+      end
 
-    def outbound_stops
-      route["table"]["directions"][1]["table"]["stops"]
+      def inbound_stops
+        self[0]["table"]["directions"][0]["table"]["stops"]
+      end
+
+      def outbound_stops
+        self[0]["table"]["directions"][1]["table"]["stops"]
+      end
+
+      def list_inbound_stops
+        list = {}
+        self.inbound_stops.each do |stop|
+          list[tag(stop)] = title(stop)
+        end
+        list
+      end
+
+      def list_outbound_stops
+        list = {}
+        self.outbound_stops.each do |stop|
+          list[tag(stop)] = title(stop)
+        end
+        list
+      end
+
     end
   end
 
-end
 
+end
