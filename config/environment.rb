@@ -21,6 +21,10 @@ require "sinatra/reloader" if development?
 require 'erb'
 require 'muni'
 require 'pry'
+require 'dotenv'
+
+Dotenv.load
+GOOGLE_API_KEY = ENV['GOOGLE_API_KEY']
 
 # Some helper constants for path-centric logic
 APP_ROOT = Pathname.new(File.expand_path('../../', __FILE__))

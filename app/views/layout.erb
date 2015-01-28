@@ -1,7 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <!-- 
+  <script src='https://cdn.firebase.com/js/client/2.0.4/firebase.js'></script>
+  <script src='https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js'></script>
+   <script type="text/javascript"
+      src="https://maps.googleapis.com/maps/api/js?key=<%= GOOGLE_API_KEY %>">
+    </script>
+  <!--
     normalize.css removes cross-browser differences in defaults, e.g.,
     differences in how form elements appear between Firefox and IE
     See: http://necolas.github.com/normalize.css/
@@ -14,10 +19,13 @@
 
   <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
   <script src="/js/application.js"></script>
+  <script src="/js/google_map.js"></script>
 
   <title></title>
 </head>
 <body>
   <%= yield %>
+  <script src="/js/firebase_bus.js">
+  </script>
 </body>
 </html>
