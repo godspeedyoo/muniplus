@@ -16,4 +16,13 @@
 <br>
 <br>
 
-
+<table>
+<tr>
+  <th>Prediction</ht>
+</tr>
+<% @stop.predictions.each do |prediction| %>
+<tr>
+  <td><%= prediction.seconds %> Seconds</td>
+</tr>
+<% end %>
+<table>
