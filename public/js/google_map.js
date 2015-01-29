@@ -1,5 +1,9 @@
 var ref = new Firebase('https://publicdata-transit.firebaseio.com/sf-muni');
+// ref.child("routes").on("value", function(snapshot){ console.log(JSON.stringify(snapshot.val()))})
+// ref.child("vehicles").on("value", function(snapshot){ console.log(JSON.stringify(snapshot.val()))})
+
 var transitLine = getLine();
+buses = {};
 
 function initialize() {
   // configuration for initial map
@@ -79,14 +83,52 @@ function checkIfMoved(fromLat, fromLng, toLat, toLng) {
   return (Math.abs(fromLat - toLat) > 0.000001) || (Math.abs(fromLng - toLng) > 0.000001)
 }
 
-
+// create a new bus
+function generateBus(bus, firebaseId) {
+  var busLocation = new google.maps.LatLng(bus.lat, bus.lon);
+  var marker = new google.maps.Marker({
+    icon: "http://mapicons.nicolasmollet.com/wp-content/uploads/mapicons/shape-default/color-f76420/shapecolor-color/shadow-1/border-black/symbolstyle-contrast/symbolshadowstyle-no/gradient-no/bus.png",
+    position: busLocation,
+    map: map
+  });
+  buses[firebaseId] = marker;
+}
 
 // bus icon: "http://google-maps-icons.googlecode.com/files/bus.png"
 // bus icon alternative "http://mapicons.nicolasmollet.com/wp-content/uploads/mapicons/shape-default/color-f76420/shapecolor-color/shadow-1/border-black/symbolstyle-contrast/symbolshadowstyle-no/gradient-no/bus.png"
 
-//
-marker = new google.maps.Marker({
-            icon: "http://mapicons.nicolasmollet.com/wp-content/uploads/mapicons/shape-default/color-f76420/shapecolor-color/shadow-1/border-black/symbolstyle-contrast/symbolshadowstyle-no/gradient-no/bus.png",
-            position: new google.maps.LatLng(getPosition()),
-            map: map
-        });
+// Create a new marker for testing
+// ------------------------------------------------------
+// marker = new google.maps.Marker({
+//             icon: "http://mapicons.nicolasmollet.com/wp-content/uploads/mapicons/shape-default/color-f76420/shapecolor-color/shadow-1/border-black/symbolstyle-contrast/symbolshadowstyle-no/gradient-no/bus.png",
+//             position: new google.maps.LatLng(getPosition()),
+//             map: map
+//         });
+
+
+// ref.child("vehicles").once("value", function(s){s.forEach(function(b){console.log(b.val()); console.log(b.key());})})
+
+// take a snapshot of the firebase vehicle
+// match the route and fill in its known busIds
+function fillBusIds(){
+  busIds = []
+  ref.child("routes").once("value", function(snapshot){
+    snapshot.forEach(function(route){
+      if (route.key() == transitLine){
+        for (busnum in route.val()){
+          busIds.push(busnum);
+        }
+      }
+    })
+  })
+  return busIds
+}
+
+ref.child("vehicles").once("value", function(snapshot){
+  snapshot.forEach(function(route){
+    if (route.key() == 8107){
+      console.log(route.val());
+    }
+    // console.log(route.val());
+  })
+})
