@@ -1,3 +1,5 @@
+busData = {};
+busIds = [];
 var ref = new Firebase('https://publicdata-transit.firebaseio.com/sf-muni');
 // ref.child("routes").on("value", function(snapshot){ console.log(JSON.stringify(snapshot.val()))})
 // ref.child("vehicles").on("value", function(snapshot){ console.log(JSON.stringify(snapshot.val()))})
@@ -19,6 +21,53 @@ function initialize() {
     map: map
   })
 }
+// take a snapshot of the firebase vehicle
+// ------------------------------------------------------------
+// match the route and fill in its known busIds
+
+// DOCUMENT ONLOAD
+// ############################################################
+
+  firebaseRoutes = ref.child("routes");
+  firebaseRoutes.once("value", function(snapshot){
+    snapshot.forEach(function(route){
+      if (route.key() == transitLine){
+        for (busnum in route.val()){
+          busIds.push(parseInt(busnum));
+        }
+      }
+    })
+  });
+
+  // get busData for each matching bus in busIds
+  firebaseVehicles = ref.child("vehicles");
+  firebaseVehicles.once("value", function(snapshot){
+    snapshot.forEach(function(bus){
+      if (busIds.indexOf(parseInt(bus.key())) > -1){
+        busData[bus.key()] = bus.val();
+      }
+    })
+  });
+
+  // populate map with initial data of buses and their locations
+
+
+
+
+  // add listeners for every event change from firebase that matches the vehicle
+
+  firebaseVehicles.on("child_changed", function(snapshot){
+    // console.log(snapshot.key());
+    var busMarker = buses[snapshot.key()] // snapshot.key() returns a string value
+    if (!!busMarker){
+      busMarker.animatedMoveTo(snapshot.val().lat, snapshot.val().lon);
+    }
+    // console.log(buses[parseInt(snapshot.key())]);
+    // console.log("key:" + s.key() + " value:" + s.val());
+  })
+
+// ############################################################
+
 
 // obtain line # from DOM
 function getLine() {
@@ -93,51 +142,20 @@ function generateBus(bus, firebaseId) {
   });
   buses[firebaseId] = marker;
 }
-// take a snapshot of the firebase vehicle
-// ------------------------------------------------------------
-// match the route and fill in its known busIds
-busIds = [];
-firebaseRoutes = ref.child("routes");
-firebaseRoutes.once("value", function(snapshot){
-  snapshot.forEach(function(route){
-    if (route.key() == transitLine){
-      for (busnum in route.val()){
-        busIds.push(parseInt(busnum));
-      }
+
+$(document).ready(function(){
+  setTimeout(function(){
+    for(bus in busData){
+      generateBus(busData[bus], bus);
     }
+      alert("HOOOOO");
+    }, 5000)
+
   })
-});
-
-// get busData for each matching bus in busIds
-busData = {};
-firebaseVehicles = ref.child("vehicles");
-firebaseVehicles.once("value", function(snapshot){
-  snapshot.forEach(function(bus){
-    if (busIds.indexOf(parseInt(bus.key())) > -1){
-      busData[bus.key()] = bus.val();
-    }
-  })
-});
-
-// populate map with initial data of buses and their locations
-for(bus in busData){
-  generateBus(busData[bus], bus);
-
-}
 
 
-// add listeners for every event change from firebase that matches the vehicle
 
-firebaseVehicles.on("child_changed", function(snapshot){
-  // console.log(snapshot.key());
-  var busMarker = buses[snapshot.key()] // snapshot.key() returns a string value
-  if (!!busMarker){
-    busMarker.animatedMoveTo(snapshot.val().lat, snapshot.val().lon);
-    alert("Bus movement detected!");
-  }
-  // console.log(buses[parseInt(snapshot.key())]);
-  // console.log("key:" + s.key() + " value:" + s.val());
-})
+
 // bus icon: "http://google-maps-icons.googlecode.com/files/bus.png"
 // bus icon alternative "http://mapicons.nicolasmollet.com/wp-content/uploads/mapicons/shape-default/color-f76420/shapecolor-color/shadow-1/border-black/symbolstyle-contrast/symbolshadowstyle-no/gradient-no/bus.png"
 
