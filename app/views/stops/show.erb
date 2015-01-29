@@ -3,7 +3,7 @@
 
 <div class="container">
   <div class="sharktank eight offset-by-two columns">
-    <h1><%= @title %></h1>
+    <h3><%= @title %></h3>
     <table class="hidden">
     <tr>
       <th>Description</th>
@@ -22,8 +22,11 @@
     <br>
     <div class="clock_2"></div>
 
+    <div id="map-canvas">
+    </div>
 
-    <table class="u-full-width">
+
+    <table class="hidden">
     <tr>
       <th>Prediction</ht>
     </tr>
@@ -35,8 +38,5 @@
     </tr>
     <% end %>
     <table>
-
-    <div id="map-canvas">
-    </div>
   </div>
 </div>

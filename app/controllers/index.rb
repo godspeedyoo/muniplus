@@ -3,23 +3,29 @@ get '/' do
 end
 
 post '/routes' do
-  @route = Muni::Route.find(params[:route_number])
-  # MuniRoute.find_or_create_by(route_number: params[:route_number]) do |route|
-  #   route.data = @route.to_s
-  # end
-  # @predictions = @route.outbound.stop_at("2nd st & Folsom").predictions
-  r = jsonify(@route)
-  @route = RouteAccessor::Route.new(r)
-  p @config = params[:config]
-  @results = filter_inbound_or_outbound(@config, @route)
-  @route_number = params[:route_number]
-  # p stop_tag(@stop)
-  # p stop_title(@stop)
-  # p stop_lat(@stop)
-  # p stop_lon(@stop)
-  # @route.list_inbound_stops
-  # RouteAccessor::Route.new(@route)
-  erb :index
+  if params[:config].nil?
+    @errors = "Please select inbound or outbound directions"
+    erb :index
+  else
+
+    @route = Muni::Route.find(params[:route_number])
+    # MuniRoute.find_or_create_by(route_number: params[:route_number]) do |route|
+    #   route.data = @route.to_s
+    # end
+    # @predictions = @route.outbound.stop_at("2nd st & Folsom").predictions
+    r = jsonify(@route)
+    @route = RouteAccessor::Route.new(r)
+    @config = params[:config]
+    @results = filter_inbound_or_outbound(@config, @route)
+    @route_number = params[:route_number]
+    # p stop_tag(@stop)
+    # p stop_title(@stop)
+    # p stop_lat(@stop)
+    # p stop_lon(@stop)
+    # @route.list_inbound_stops
+    # RouteAccessor::Route.new(@route)
+    erb :index
+  end
 end
 # r12 = Muni::Route.new({
 #   tag: "3008",
