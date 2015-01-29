@@ -146,6 +146,8 @@ google.maps.Marker.prototype.animatedMoveTo = function(toLat, toLng) {
 
 
 function checkIfMoved(fromLat, fromLng, toLat, toLng) {
+  if ((Math.abs(fromLat - toLat) > 0.1) || (Math.abs(fromLng - toLng) > 0.1))
+  alert("something went wrong!")
   return (Math.abs(fromLat - toLat) > 0.000001) || (Math.abs(fromLng - toLng) > 0.000001)
 }
 

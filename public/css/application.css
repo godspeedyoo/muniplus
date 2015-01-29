@@ -3,17 +3,24 @@
   margin: 0;
   padding: 0;
   background-color: #D8EBBE;
+  border: 5px solid white;
 }
+
+
 
 .sharktank {
   margin-top: 80px;
   margin-left: auto;
   margin-right: auto;
-  width: 600px;
+  width: 500px;
   background-color: #D8EBBE;
   padding: 40px;
   border-radius: 10px;
   text-align: center;
+}
+
+.div.container {
+  margin: 0px;
 }
 
 .sharktank table {
@@ -21,10 +28,9 @@
 }
 
 .clock.flip-clock-wrapper {
-  margin-left: 60px;
-  margin-right: auto;
+  margin-left: 100px;
+  margin-right: 60px;
   width: 400px;
-  position: relative;
 }
 
 .hidden {
