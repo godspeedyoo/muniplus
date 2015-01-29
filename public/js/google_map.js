@@ -27,6 +27,8 @@ function initialize() {
     map: map
   })
 }
+
+
 // take a snapshot of the firebase vehicle
 // ------------------------------------------------------------
 // match the route and fill in its known busIds
@@ -35,6 +37,7 @@ function initialize() {
 // ############################################################
 
   firebaseRoutes = ref.child("routes");
+  busIds = [];
   firebaseRoutes.once("value", function(snapshot){
     snapshot.forEach(function(route){
       if (route.key() == transitLine){
@@ -56,12 +59,18 @@ function initialize() {
   });
 
   firebaseVehicles.on("child_removed", function(snapshot){
-    var busMarker = buses[snapshot.key()];
-      if (typeof busMarker !== "undefined") {
-        busMarker.setMap(null);
-        delete buses[snapshot.key()];
-        console.log("Bus removed!");
-      }
+    // busIds.indexOf(parseInt(bus.key())
+    // console.log(snapshot.val());
+    if (busIds.indexOf(parseInt(snapshot.key())) > -1) {
+      console.log(parseInt(snapshot.key()) + "has been removed");
+    }
+
+    // var busMarker = buses[snapshot.key()];
+    //   if (typeof busMarker !== "undefined") {
+    //     busMarker.setMap(null);
+    //     delete buses[snapshot.key()];
+    //     console.log("Bus removed!");
+
   })
 
   // populate map with initial data of buses and their locations
@@ -74,8 +83,11 @@ function initialize() {
   firebaseVehicles.on("child_changed", function(snapshot){
     // console.log(snapshot.key());
     var busMarker = buses[snapshot.key()] // snapshot.key() returns a string value
-    if (!!busMarker){
-      busMarker.animatedMoveTo(snapshot.val().lat, snapshot.val().lon);
+    if(buses[snapshot.key()]) {
+      buses[snapshot.key()].metadata = { busId: snapshot.key() }
+      if (!!busMarker){
+        busMarker.animatedMoveTo(snapshot.val().lat, snapshot.val().lon);
+      }
     }
     // console.log(buses[parseInt(snapshot.key())]);
     // console.log("key:" + s.key() + " value:" + s.val());
@@ -99,6 +111,7 @@ function getPosition() {
 google.maps.event.addDomListener(window, 'load', initialize);
 
 
+
 // setPosition method usage:
 // --------------------------------------------------
 //marker.setPosition({lat: 37.78399, lng: -122.40})
@@ -111,7 +124,7 @@ google.maps.event.addDomListener(window, 'load', initialize);
 // });
 
 google.maps.Marker.prototype.animatedMoveTo = function(toLat, toLng) {
-  console.log("Bus has moved!")
+  // console.log("Bus has moved!")
   // check if the values of current position vs the destination position are similar
     // write a function that returns true/false based on comparison of two decimal values
   var fromLat = this.getPosition().lat();
@@ -120,6 +133,11 @@ google.maps.Marker.prototype.animatedMoveTo = function(toLat, toLng) {
   if (!checkIfMoved(fromLat, fromLng, toLat, toLng)){
     return;
   }
+  // error checking for erroneous coordinate changes that are too large
+  if (checkIfMovedTooFar(fromLat, fromLng, toLat, toLng)) {
+    console.log(this.val() +  " has moved too far ######");
+  }
+
   frames = [];
   for (percent = 0; percent < 1; percent += 0.005) {
       curLat = fromLat + percent * (toLat - fromLat);
@@ -137,40 +155,61 @@ google.maps.Marker.prototype.animatedMoveTo = function(toLat, toLng) {
       }, waitTime)
     } else {
       // set permanent
-      console.log("Animation finished, setting end point")
-      marker.setPosition({lat: toLat, lng: toLng})
+      // console.log("Animation finished, setting end point")
+      // marker.setPosition({lat: toLat, lng: toLng})
+      // console.log("Completed for " + marker.metadata.busId);
+
     }
   };
-  move(this, frames, 0, 25);
+  console.log("Beginning animation for " + this.metadata.busId)
+  move(this, frames, 0, 10);
+
 };
 
 
 function checkIfMoved(fromLat, fromLng, toLat, toLng) {
-  if ((Math.abs(fromLat - toLat) > 0.1) || (Math.abs(fromLng - toLng) > 0.1))
-  alert("something went wrong!")
   return (Math.abs(fromLat - toLat) > 0.000001) || (Math.abs(fromLng - toLng) > 0.000001)
 }
 
+function checkIfMovedTooFar(fromLat, fromLng, toLat, toLng) {
+  // if ((Math.abs(fromLat - toLat) > 0.1) || (Math.abs(fromLng - toLng) > 0.1))
+  // alert("something went wrong!")
+  if ((Math.abs(fromLat - toLat) > 0.01) ||
+      (Math.abs(fromLng - toLng) > 0.01)) {
+        return true;
+      }
+}
+
+
+
 // create a new bus
-function generateBus(bus, firebaseId) {
-  var busLocation = new google.maps.LatLng(bus.lat, bus.lon);
+function generateBus(fb_bus, fb_bus_key) {
+  var busLocation = new google.maps.LatLng(fb_bus.lat, fb_bus.lon);
   var marker = new google.maps.Marker({
     icon: "http://mapicons.nicolasmollet.com/wp-content/uploads/mapicons/shape-default/color-f76420/shapecolor-color/shadow-1/border-black/symbolstyle-contrast/symbolshadowstyle-no/gradient-no/bus.png",
     position: busLocation,
     map: map
   });
-  buses[firebaseId] = marker;
+  buses[fb_bus_key] = marker;
 }
 
 $(document).ready(function(){
   setTimeout(function(){
-    for(bus in busData){
-      generateBus(busData[bus], bus);
+    for(fb_bus_key in busData){
+      generateBus(busData[fb_bus_key], fb_bus_key);
     }
-    console.log("initializing buses")
-    }, 1000)
+    // console.log("initializing buses")
+    }, 1000);
 
-  })
+  // add mouse over or click listeners to each bus in our buses collection
+})
+
+// for (id in busIds) {
+//   console.log(id);
+//   google.maps.event.addListener(buses[id], 'click', function(){
+//     console.log(bus.val());
+//   });
+// };
 
 
 

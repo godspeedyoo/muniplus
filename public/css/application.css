@@ -7,14 +7,14 @@
 }
 
 .wrapper {
-  width: 100%;
+  width: 60%;
   background-color: #D8EBBE;
 }
 
 .sharktank {
   margin-top: 80px;
-  margin-left: auto;
-  margin-right: auto;
+  margin-left: 0;
+  margin-right: 0;
   width: 500px;
   background-color: #D8EBBE;
   padding: 40px;
