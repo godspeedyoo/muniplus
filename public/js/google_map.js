@@ -109,26 +109,29 @@ function generateBus(bus, firebaseId) {
 // ref.child("vehicles").once("value", function(s){s.forEach(function(b){console.log(b.val()); console.log(b.key());})})
 
 // take a snapshot of the firebase vehicle
+// ------------------------------------------------------------
 // match the route and fill in its known busIds
-function fillBusIds(){
-  busIds = []
-  ref.child("routes").once("value", function(snapshot){
-    snapshot.forEach(function(route){
-      if (route.key() == transitLine){
-        for (busnum in route.val()){
-          busIds.push(busnum);
-        }
-      }
-    })
-  })
-  return busIds
-}
-
-ref.child("vehicles").once("value", function(snapshot){
+busIds = [];
+firebaseRoutes = ref.child("routes");
+firebaseRoutes.once("value", function(snapshot){
   snapshot.forEach(function(route){
-    if (route.key() == 8107){
-      console.log(route.val());
+    if (route.key() == transitLine){
+      for (busnum in route.val()){
+        busIds.push(parseInt(busnum));
+      }
     }
-    // console.log(route.val());
   })
-})
+});
+
+// get busData for each matching bus in busIds
+busData = {};
+firebaseVehicles = ref.child("vehicles");
+firebaseVehicles.once("value", function(snapshot){
+  snapshot.forEach(function(bus){
+    if (busIds.indexOf(parseInt(bus.key())) > -1){
+      busData[bus.key()] = bus.val();
+    }
+  })
+});
+
+// add listeners for every event change from firebase that matches the vehicle
