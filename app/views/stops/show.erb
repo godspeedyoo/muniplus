@@ -1,35 +1,41 @@
 
 
 
-<h1>Stop Information</h1>
-<%= @title %>
-<table>
-<tr>
-  <th>Description</th>
-  <th>Value</th>
-</tr>
-<% @stop.each_pair do |k, v| %>
-<tr>
-  <td><%= k %></td>
-  <td id="<%= k %>"><%= v %></td>
-</tr>
-<% end %>
-</table>
+<div class="container">
+  <h1>Stop Information</h1>
+  <%= @title %>
+  <table>
+  <tr>
+    <th>Description</th>
+    <th>Value</th>
+  </tr>
+  <% @stop.each_pair do |k, v| %>
+  <tr>
+    <td><%= k %></td>
+    <td id="<%= k %>"><%= v %></td>
+  </tr>
+  <% end %>
+  </table>
 
-<br>
-<br>
+  <br>
+  <div class="clock"></div>
+  <br>
 
-<table>
-<tr>
-  <th>Prediction</ht>
-</tr>
-<% @stop.predictions.each do |prediction| %>
-<tr>
-  <td><%= prediction.seconds %> Seconds</td>
-</tr>
-<% end %>
-<table>
 
-<div id="map-canvas">
+  <table>
+  <tr>
+    <th>Prediction</ht>
+  </tr>
+  <% i = 0 %>
+  <% @stop.predictions.each do |prediction| %>
+  <tr>
+    <td id="prediction_<%= i %>" data-time="<%= prediction.seconds %>"><%= prediction.seconds %> Seconds</td>
+    <% i += 1 %>
+  </tr>
+  <% end %>
+  <table>
+
+  <div id="map-canvas">
+  </div>
+
 </div>
-

@@ -1,3 +1,9 @@
+// check for off by one error
+// check for decimal precision error
+// plot a bus route and follow a single bus
+// keep track of which bus is doing what
+// throw error/alert if the to/from lat/lon is too large
+
 busData = {};
 busIds = [];
 var ref = new Firebase('https://publicdata-transit.firebaseio.com/sf-muni');
@@ -49,6 +55,15 @@ function initialize() {
     })
   });
 
+  firebaseVehicles.on("child_removed", function(snapshot){
+    var busMarker = buses[snapshot.key()];
+      if (typeof busMarker !== "undefined") {
+        busMarker.setMap(null);
+        delete buses[snapshot.key()];
+        console.log("Bus removed!");
+      }
+  })
+
   // populate map with initial data of buses and their locations
 
 
@@ -96,7 +111,7 @@ google.maps.event.addDomListener(window, 'load', initialize);
 // });
 
 google.maps.Marker.prototype.animatedMoveTo = function(toLat, toLng) {
-  console.log("Invoked!")
+  console.log("Bus has moved!")
   // check if the values of current position vs the destination position are similar
     // write a function that returns true/false based on comparison of two decimal values
   var fromLat = this.getPosition().lat();
@@ -122,6 +137,8 @@ google.maps.Marker.prototype.animatedMoveTo = function(toLat, toLng) {
       }, waitTime)
     } else {
       // set permanent
+      console.log("Animation finished, setting end point")
+      marker.setPosition({lat: toLat, lng: toLng})
     }
   };
   move(this, frames, 0, 25);
@@ -148,8 +165,8 @@ $(document).ready(function(){
     for(bus in busData){
       generateBus(busData[bus], bus);
     }
-      alert("HOOOOO");
-    }, 5000)
+    console.log("initializing buses")
+    }, 1000)
 
   })
 
