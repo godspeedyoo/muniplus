@@ -10,7 +10,7 @@ function initialize() {
   // initialize google map and marker objects
   map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
   marker = new google.maps.Marker({
-    icon: "http://google-maps-icons.googlecode.com/files/bus.png",
+    icon: "http://mapicons.nicolasmollet.com/wp-content/uploads/mapicons/shape-default/color-4471fa/shapecolor-white/shadow-1/border-color/symbolstyle-color/symbolshadowstyle-no/gradient-no/busstop.png",
     position: getPosition(),
     map: map
   })
@@ -43,12 +43,13 @@ google.maps.event.addDomListener(window, 'load', initialize);
 // });
 
 google.maps.Marker.prototype.animatedMoveTo = function(toLat, toLng) {
+  console.log("Invoked!")
   // check if the values of current position vs the destination position are similar
     // write a function that returns true/false based on comparison of two decimal values
   var fromLat = this.getPosition().lat();
   var fromLng = this.getPosition().lng();
   // return if no buses have moved
-  if (checkIfMoved(fromLat, fromLng, toLat, toLng)){
+  if (!checkIfMoved(fromLat, fromLng, toLat, toLng)){
     return;
   }
   frames = [];
@@ -59,25 +60,33 @@ google.maps.Marker.prototype.animatedMoveTo = function(toLat, toLng) {
       frames.push(new google.maps.LatLng(curLat, curLng));
   }
 
-
-
-}
+  move = function(marker, frames, index, waitTime) {
+    marker.setPosition(frames[index]);
+    if (index < frames.length) {
+      setTimeout(function() {
+        // recursively call move as long as index has not gone through all frames
+        move(marker, frames, index + 1, waitTime);
+      }, waitTime)
+    } else {
+      // set permanent
+    }
+  };
+  move(this, frames, 0, 25);
+};
 
 
 function checkIfMoved(fromLat, fromLng, toLat, toLng) {
   return (Math.abs(fromLat - toLat) > 0.000001) || (Math.abs(fromLng - toLng) > 0.000001)
 }
 
-google.maps.Marker.prototype.move = function(frames, index, waitTime) {
-  this.setPosition(frames[index]);
-  if (index < frames.length) {
-    setTimeout(function() {
-      // recursively call move as long as index has not gone through all frames
-      this.move(frames, index + 1, )
-    })
-  }
-}
 
 
+// bus icon: "http://google-maps-icons.googlecode.com/files/bus.png"
+// bus icon alternative "http://mapicons.nicolasmollet.com/wp-content/uploads/mapicons/shape-default/color-f76420/shapecolor-color/shadow-1/border-black/symbolstyle-contrast/symbolshadowstyle-no/gradient-no/bus.png"
 
 //
+marker = new google.maps.Marker({
+            icon: "http://mapicons.nicolasmollet.com/wp-content/uploads/mapicons/shape-default/color-f76420/shapecolor-color/shadow-1/border-black/symbolstyle-contrast/symbolshadowstyle-no/gradient-no/bus.png",
+            position: new google.maps.LatLng(getPosition()),
+            map: map
+        });
