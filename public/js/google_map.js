@@ -93,21 +93,6 @@ function generateBus(bus, firebaseId) {
   });
   buses[firebaseId] = marker;
 }
-
-// bus icon: "http://google-maps-icons.googlecode.com/files/bus.png"
-// bus icon alternative "http://mapicons.nicolasmollet.com/wp-content/uploads/mapicons/shape-default/color-f76420/shapecolor-color/shadow-1/border-black/symbolstyle-contrast/symbolshadowstyle-no/gradient-no/bus.png"
-
-// Create a new marker for testing
-// ------------------------------------------------------
-// marker = new google.maps.Marker({
-//             icon: "http://mapicons.nicolasmollet.com/wp-content/uploads/mapicons/shape-default/color-f76420/shapecolor-color/shadow-1/border-black/symbolstyle-contrast/symbolshadowstyle-no/gradient-no/bus.png",
-//             position: new google.maps.LatLng(getPosition()),
-//             map: map
-//         });
-
-
-// ref.child("vehicles").once("value", function(s){s.forEach(function(b){console.log(b.val()); console.log(b.key());})})
-
 // take a snapshot of the firebase vehicle
 // ------------------------------------------------------------
 // match the route and fill in its known busIds
@@ -134,4 +119,36 @@ firebaseVehicles.once("value", function(snapshot){
   })
 });
 
+// populate map with initial data of buses and their locations
+for(bus in busData){
+  generateBus(busData[bus], bus);
+
+}
+
+
 // add listeners for every event change from firebase that matches the vehicle
+
+firebaseVehicles.on("child_changed", function(snapshot){
+  // console.log(snapshot.key());
+  var busMarker = buses[snapshot.key()] // snapshot.key() returns a string value
+  if (!!busMarker){
+    busMarker.animatedMoveTo(snapshot.val().lat, snapshot.val().lon);
+    alert("Bus movement detected!");
+  }
+  // console.log(buses[parseInt(snapshot.key())]);
+  // console.log("key:" + s.key() + " value:" + s.val());
+})
+// bus icon: "http://google-maps-icons.googlecode.com/files/bus.png"
+// bus icon alternative "http://mapicons.nicolasmollet.com/wp-content/uploads/mapicons/shape-default/color-f76420/shapecolor-color/shadow-1/border-black/symbolstyle-contrast/symbolshadowstyle-no/gradient-no/bus.png"
+
+// Create a new marker for testing
+// ------------------------------------------------------
+// marker = new google.maps.Marker({
+//             icon: "http://mapicons.nicolasmollet.com/wp-content/uploads/mapicons/shape-default/color-f76420/shapecolor-color/shadow-1/border-black/symbolstyle-contrast/symbolshadowstyle-no/gradient-no/bus.png",
+//             position: new google.maps.LatLng(getPosition()),
+//             map: map
+//         });
+
+
+// ref.child("vehicles").once("value", function(s){s.forEach(function(b){console.log(b.val()); console.log(b.key());})})
+
