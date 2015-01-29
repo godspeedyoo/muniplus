@@ -1,3 +1,6 @@
+
+
+
 <h1>Stop Information</h1>
 <%= @title %>
 <table>
@@ -8,7 +11,7 @@
 <% @stop.each_pair do |k, v| %>
 <tr>
   <td><%= k %></td>
-  <td><%= v %></td>
+  <td id="<%= k %>"><%= v %></td>
 </tr>
 <% end %>
 </table>
@@ -26,3 +29,7 @@
 </tr>
 <% end %>
 <table>
+
+<div id="map-canvas">
+</div>
+<script src="/js/google_map.js"></script>
