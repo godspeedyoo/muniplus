@@ -1,23 +1,26 @@
-<h1>Welcome to <a href="/">MuniPlus</a></h1>
-<h3>Serving the San Francisco Area</h3>
-<h4>Find a route</h4><br>
-<form action="/routes" method="POST">
-  <label for="inbound">Inbound</label><input type="checkbox" name="config[inbound]" id="inbound" value="1"><br>
-  <label for="outbound">Outbound</label><input type="checkbox" name="config[outbound]" id="outbound" value="1"><br>
-  <input type="number" name="route_number" placeholder="Enter Route #">
-  <input type="submit" value="Submit"><br>
-</form>
-<% unless @route.nil? %>
-    <%  @results.each do |data_set| %>
-  <table>
-      <h3><%= data_set.keys[0] %></h3>
-      <% data_set["#{data_set.keys[0]}".to_sym].each do |tag, title| %>
-        <tr>
-          <td><a href="/<%= data_set.keys[0] %>/<%= @route_number %>/<%= title %>"><%= tag %></a></td>
-          <td><a href="/<%= data_set.keys[0] %>/<%= @route_number %>/<%= title %>"><%= title %></a></td>
-        </tr>
-      <% end %>
+<div class="container">
+  <div class="splash">
+    <h1>Welcome to <a href="/">MuniPlus</a></h1>
+    <h3>Serving the San Francisco Area</h3>
+    <h4>Find a route</h4><br>
+    <form action="/routes" method="POST">
+      <label for="inbound">Inbound</label><input type="checkbox" name="config[inbound]" id="inbound" value="1"><br>
+      <label for="outbound">Outbound</label><input type="checkbox" name="config[outbound]" id="outbound" value="1"><br>
+      <input type="number" name="route_number" placeholder="Enter Route #">
+      <input type="submit" value="Submit"><br>
+    </form>
+    <% unless @route.nil? %>
+        <%  @results.each do |data_set| %>
+      <table>
+          <h3><%= data_set.keys[0] %></h3>
+          <% data_set["#{data_set.keys[0]}".to_sym].each do |tag, title| %>
+            <tr>
+              <td><a href="/<%= data_set.keys[0] %>/<%= @route_number %>/<%= title %>"><%= tag %></a></td>
+              <td><a href="/<%= data_set.keys[0] %>/<%= @route_number %>/<%= title %>"><%= title %></a></td>
+            </tr>
+          <% end %>
+        <% end %>
+      </table>
     <% end %>
-  </table>
-<% end %>
-
+  </div>
+</div>
