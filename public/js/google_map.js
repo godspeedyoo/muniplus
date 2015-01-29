@@ -17,7 +17,7 @@ function initialize() {
   // configuration for initial map
   var mapOptions = {
     center: getPosition(),
-    zoom: 15
+    zoom: 14
   };
   // initialize google map and marker objects
   map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
@@ -226,7 +226,7 @@ $(document).ready(function(){
       generateBus(busData[fb_bus_key], fb_bus_key);
     }
     // console.log("initializing buses")
-    }, 1000);
+    }, 1500);
 
   // add mouse over or click listeners to each bus in our buses collection
 for (id in busIds) {
