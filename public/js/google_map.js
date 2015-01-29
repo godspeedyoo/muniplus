@@ -26,6 +26,17 @@ function initialize() {
     position: getPosition(),
     map: map
   })
+
+
+  google.maps.event.addListener(marker, 'click', function() {
+    var infowindow = new google.maps.InfoWindow({
+      content: $('h3').text(),
+      map: map,
+      position: getPosition()
+    });
+
+    infowindow.open(map, marker);
+  })
 }
 
 
@@ -83,7 +94,7 @@ function initialize() {
   firebaseVehicles.on("child_changed", function(snapshot){
     // console.log(snapshot.key());
     var busMarker = buses[snapshot.key()] // snapshot.key() returns a string value
-    if(buses[snapshot.key()]) {
+    if(!!buses[snapshot.key()]) {
       buses[snapshot.key()].metadata = { busId: snapshot.key() }
       if (!!busMarker){
         busMarker.animatedMoveTo(snapshot.val().lat, snapshot.val().lon);
@@ -155,8 +166,8 @@ google.maps.Marker.prototype.animatedMoveTo = function(toLat, toLng) {
       }, waitTime)
     } else {
       // set permanent
-      // console.log("Animation finished, setting end point")
-      // marker.setPosition({lat: toLat, lng: toLng})
+      console.log("Animation finished, setting end point");
+      marker.setPosition({lat: toLat, lng: toLng});
       // console.log("Completed for " + marker.metadata.busId);
 
     }
@@ -191,7 +202,23 @@ function generateBus(fb_bus, fb_bus_key) {
     map: map
   });
   buses[fb_bus_key] = marker;
+  marker.metadata = {busId: fb_bus_key}
+  addMapInfoListener(marker, busLocation);
 }
+
+
+function addMapInfoListener(marker, busLocation) {
+  google.maps.event.addListener(marker, 'click', function() {
+    var infowindow = new google.maps.InfoWindow({
+      content: marker.metadata.busId,
+      map: map,
+      position: busLocation
+    });
+    infowindow.open(map, marker);
+  })
+}
+
+
 
 $(document).ready(function(){
   setTimeout(function(){
@@ -202,14 +229,14 @@ $(document).ready(function(){
     }, 1000);
 
   // add mouse over or click listeners to each bus in our buses collection
+for (id in busIds) {
+  console.log(id);
+  google.maps.event.addListener(buses[id], 'click', function(){
+    console.log("Clicked!");
+  });
+};
 })
 
-// for (id in busIds) {
-//   console.log(id);
-//   google.maps.event.addListener(buses[id], 'click', function(){
-//     console.log(bus.val());
-//   });
-// };
 
 
 
