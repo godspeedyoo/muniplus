@@ -5,14 +5,16 @@ $(function(){
   var title = button.attr('data-title');
   button.click(function(){
     console.log("clicked...");
-    var url = "/" + direction + "/" + routeNumber + "/" + title;
+    var url = "/p/" + direction + "/" + routeNumber + "/" + title;
 
     $.ajax({
       url: url,
-      type: "POST",
+      type: "get",
       complete: function(response) {
         // console.log("Completed AJAX request");
-        predictionData = JSON.parse(response);
+        // console.log(response);
+        // console.log(response);
+        predictionData = JSON.parse(response.responseText);
         console.log(predictionData);
         // console.log(jQuery.parseJSON(response));
         // alert(response.getAllResponseHeaders());
