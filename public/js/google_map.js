@@ -27,7 +27,7 @@ function initialize() {
   // initialize google map and marker objects
   map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
   marker = new google.maps.Marker({
-    icon: "http://mapicons.nicolasmollet.com/wp-content/uploads/mapicons/shape-default/color-4471fa/shapecolor-white/shadow-1/border-color/symbolstyle-color/symbolshadowstyle-no/gradient-no/busstop.png",
+    icon: "../../busstop.png",
     position: getPosition(),
     map: map
   })
