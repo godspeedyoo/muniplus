@@ -202,7 +202,7 @@ function checkIfMovedTooFar(fromLat, fromLng, toLat, toLng) {
 function generateBus(fb_bus, fb_bus_key) {
   var busLocation = new google.maps.LatLng(fb_bus.lat, fb_bus.lon);
   var marker = new google.maps.Marker({
-    icon: "http://mapicons.nicolasmollet.com/wp-content/uploads/mapicons/shape-default/color-f76420/shapecolor-color/shadow-1/border-black/symbolstyle-contrast/symbolshadowstyle-no/gradient-no/bus.png",
+    icon: "../../bus.png",
     position: busLocation,
     map: map
   });
@@ -233,7 +233,7 @@ $(document).ready(function(){
     // console.log("initializing buses")
     }, 2000);
 
-  // add mouse over or click listeners to each bus in our buses collection
+// add mouse over or click listeners to each bus in our buses collection
 for (id in busIds) {
   console.log(id);
   google.maps.event.addListener(buses[id], 'click', function(){
@@ -244,15 +244,15 @@ for (id in busIds) {
 
 
 // calculate radians based on location
-google.maps.LatLng.prototype.latRadians = function()
-{
-  return (Math.PI * this.lat()) / 180;
-}
+// google.maps.LatLng.prototype.latRadians = function()
+// {
+//   return (Math.PI * this.lat()) / 180;
+// }
 
-google.maps.LatLng.prototype.lngRadians = function()
-{
-  return (Math.PI * this.lng()) / 180;
-}
+// google.maps.LatLng.prototype.lngRadians = function()
+// {
+//   return (Math.PI * this.lng()) / 180;
+// }
 
 // bus icon: "http://google-maps-icons.googlecode.com/files/bus.png"
 // bus icon alternative "http://mapicons.nicolasmollet.com/wp-content/uploads/mapicons/shape-default/color-f76420/shapecolor-color/shadow-1/border-black/symbolstyle-contrast/symbolshadowstyle-no/gradient-no/bus.png"
