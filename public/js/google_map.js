@@ -4,6 +4,11 @@
 // keep track of which bus is doing what
 // throw error/alert if the to/from lat/lon is too large
 
+
+
+
+
+
 busData = {};
 busIds = [];
 var ref = new Firebase('https://publicdata-transit.firebaseio.com/sf-muni');
@@ -226,7 +231,7 @@ $(document).ready(function(){
       generateBus(busData[fb_bus_key], fb_bus_key);
     }
     // console.log("initializing buses")
-    }, 1500);
+    }, 2000);
 
   // add mouse over or click listeners to each bus in our buses collection
 for (id in busIds) {

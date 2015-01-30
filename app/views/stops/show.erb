@@ -27,16 +27,21 @@
   </div>
 </div>
 
-
-  <table class="sharktank four offset-by-four columns">
-  <tr>
-    <th><button data-direction="<%= @direction %>" data-route-number="<%= @route_number %>" data-title="<%= @title %>">Refresh Predictions</button></th>
-  </tr>
-  <% i = 0 %>
-  <% @stop.predictions.each do |prediction| %>
-  <tr>
-    <td id="prediction_<%= i %>" data-time="<%= prediction.seconds %>"><%= prediction.seconds %> Seconds</td>
-    <% i += 1 %>
-  </tr>
-  <% end %>
+<div class="basstank four offset-by-four columns">
+  <thead>
+  <table class=>
+    <tr>
+      <th><button data-direction="<%= @direction %>" data-route-number="<%= @route_number %>" data-title="<%= @title %>">Refresh Predictions</button></th>
+    </tr>
+  </thead>
+  <tbody>
+    <% i = 0 %>
+    <% @stop.predictions.each do |prediction| %>
+    <tr>
+      <td id="prediction_<%= i %>" data-time="<%= prediction.seconds %>"><%= prediction.seconds %></td>
+      <% i += 1 %>
+    </tr>
+    <% end %>
+  </tbody>
   <table>
+</div>

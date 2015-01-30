@@ -4,6 +4,7 @@
   padding: 0;
   background-color: #D8EBBE;
   border: 5px solid white;
+  border-radius: 10px;
 }
 
 .wrapper {
@@ -23,6 +24,14 @@
   padding: 40px;
   border-radius: 10px;
   text-align: center;
+}
+
+.basstank {
+  margin-top: 100px;
+  width: 100px;
+  text-align: center;
+  background-color: #AC683D;
+  border-radius: 10px;
 }
 
 .div.container {
