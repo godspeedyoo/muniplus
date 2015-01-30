@@ -20,7 +20,6 @@ require "sinatra/reloader" if development?
 
 require 'erb'
 require 'muni'
-require 'pry'
 require 'dotenv'
 
 Dotenv.load

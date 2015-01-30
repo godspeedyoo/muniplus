@@ -15,7 +15,6 @@ gem 'rake'
 
 gem 'shotgun'
 gem 'muni'
-gem 'pry'
 gem 'dotenv'
 
 group :test do
