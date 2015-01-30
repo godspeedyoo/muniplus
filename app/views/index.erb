@@ -16,18 +16,20 @@
 </div>
 </div>
 
-<div class="list u-full-width four offset-by-four columns">
-<% unless @route.nil? %>
-    <%  @results.each do |data_set| %>
-  <table>
-      <h5><%= data_set.keys[0] %></h5>
-      <% data_set["#{data_set.keys[0]}".to_sym].each do |tag, title| %>
-        <tr>
-          <td><a href="/<%= data_set.keys[0] %>/<%= @route_number %>/<%= title %>"><%= tag %></a></td>
-          <td><a href="/<%= data_set.keys[0] %>/<%= @route_number %>/<%= title %>"><%= title %></a></td>
-        </tr>
+<div class="orange">
+  <div class="list u-full-width four offset-by-four columns">
+  <% unless @route.nil? %>
+      <%  @results.each do |data_set| %>
+    <table id="prediction-table">
+        <h5 id="direction-header"><%= data_set.keys[0] %></h5>
+        <% data_set["#{data_set.keys[0]}".to_sym].each do |tag, title| %>
+          <tr>
+            <td><a href="/<%= data_set.keys[0] %>/<%= @route_number %>/<%= title %>"><%= tag %></a></td>
+            <td><a href="/<%= data_set.keys[0] %>/<%= @route_number %>/<%= title %>"><%= title %></a></td>
+          </tr>
+        <% end %>
       <% end %>
-    <% end %>
-  </table>
-<% end %>
+    </table>
+  <% end %>
+  </div>
 </div>

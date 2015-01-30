@@ -10,11 +10,20 @@
 .wrapper {
   margin-right: auto;
   margin-left: auto;
-  width: 60%;
+  width: 600px;
   background-color: #D8EBBE;
   border-radius: 20px;
 }
 
+#direction-header {
+  color: white;
+}
+
+
+#prediction-table td {
+  text-align: center;
+
+}
 .sharktank {
   margin-top: 80px;
   margin-left: 0;

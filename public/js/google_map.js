@@ -243,8 +243,16 @@ for (id in busIds) {
 })
 
 
+// calculate radians based on location
+google.maps.LatLng.prototype.latRadians = function()
+{
+  return (Math.PI * this.lat()) / 180;
+}
 
-
+google.maps.LatLng.prototype.lngRadians = function()
+{
+  return (Math.PI * this.lng()) / 180;
+}
 
 // bus icon: "http://google-maps-icons.googlecode.com/files/bus.png"
 // bus icon alternative "http://mapicons.nicolasmollet.com/wp-content/uploads/mapicons/shape-default/color-f76420/shapecolor-color/shadow-1/border-black/symbolstyle-contrast/symbolshadowstyle-no/gradient-no/bus.png"
